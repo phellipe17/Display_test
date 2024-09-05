@@ -1,0 +1,35 @@
+ordem para poder conseguir compilar e dar upload para o display caso de algum problema:
+
+Baixar:
+wget https://github.com/arduino/arduino-cli/releases/download/v1.0.4/arduino-cli_1.0.4_Linux_ARMv7.tar.gz --no-check-certificate
+
+para extrair e colocar arquivos no lugar:
+tar -xvf arduino-cli_1.0.4_Linux_ARMv7.tar.gz
+sudo mv arduino-cli /usr/local/bin/
+
+para configurar e instalar:
+
+arduino-cli config init
+arduino-cli core update-index
+arduino-cli core install arduino:avr
+
+instalar avrdude :
+
+sudo apt-get update
+sudo apt-get install avrdude
+
+necessário ter 3 arquivos para se compilar o código do display (o arquivo ino, o .cpp e o .h):
+
+arduino-cli compile --fqbn arduino:avr:nano:cpu=atmega328old --output-dir /home/pi/bin_code/displaybs/ /home/pi/bin_code/displaybs/displaybs.ino --verbose
+
+para fazer o upload:
+avrdude -v -patmega328p -carduino -P/dev/ttyARD -b57600 -D -Uflash:w:/home/pi/bin_code/displaybs/displaybs.ino.hex:i
+
+------------------------------------------------------------------------------------------------
+
+para adicionar a board generica:
+
+arduino-cli core update-index --additional-urls https://raw.githubusercontent.com/dbuezas/lgt8fx/master/package_lgt8fx_index.json
+
+arduino-cli core install lgt8fx
+
