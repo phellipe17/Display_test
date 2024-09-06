@@ -29,7 +29,33 @@ avrdude -v -patmega328p -carduino -P/dev/ttyARD -b57600 -D -Uflash:w:/home/pi/bi
 
 para adicionar a board generica:
 
-arduino-cli core update-index --additional-urls https://raw.githubusercontent.com/dbuezas/lgt8fx/master/package_lgt8fx_index.json
+necessario modificar o arquivo arduino-cli.yaml:
 
-arduino-cli core install lgt8fx
+sudo nano .arduino15/arduino-cli.yaml
+
+deve ficar desta maneira:
+
+board_manager:
+  additional_urls: 
+    - https://raw.githubusercontent.com/dbuezas/lgt8fx/master/package_lgt8fx_index.json
+    
+atualizar os cores disponiveis:
+
+arduino-cli core update-index
+
+checar se aparece o core com:
+
+arduino-cli core search
+
+e finalmente instalar o core:
+
+arduino-cli core install lgt8fx:avr
+
+necessario compilar:
+
+arduino-cli compile --fqbn lgt8fx:avr:328:clock_source=internal,clock_div=8,variant=modelP,arduino_isp=disable --output-dir /home/pi/bin_code/displaybs/displaylgt8fx/ /home/pi/bin_code/displaybs/displaybs.ino --verbose
+
+avrdude -v -patmega328p -carduino -P/dev/ttyARD -b115200 -D -Uflash:w:/home/pi/bin_code/displaybs/displaylgt8fx/displaybs.ino.hex:i
+
+
 
