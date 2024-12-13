@@ -5,6 +5,8 @@ from serial.tools import list_ports
 from subprocess import Popen, PIPE
 
 tests = [
+    {'command': 'gir' , 'description': 'Seta para direita'},
+    {'command': 'lefr' , 'description': 'Seta para esquerda'},
     {'command': 'idr', 'description': 'Mostar ID no display'},
     {'command': 'gor', 'description': 'Somente buzzer'},
     {'command': 'n0.0r', 'description': 'Mostra 0.0 no display'},
@@ -15,6 +17,7 @@ tests = [
     {'command': 'gfr', 'description': 'Apaga luz azul'},
     {'command': 'c1r', 'description': 'Pisca luz vermelha'},
     {'command': 'sr', 'description': 'Liga a outra luz azul e buzzer'},
+    {'command': 'rig' , 'description': 'Seta para direita'},    
 ]
 
 # hex_file_path = os.path.join(os.path.dirname(_file_), 'bin/Display5621BS.ino.hex')

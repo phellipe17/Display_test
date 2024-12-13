@@ -20,9 +20,6 @@ unsigned long go_timer;
 unsigned long speed_timer;
 unsigned long distance_timer;
 unsigned long id_timer;
-unsigned long to_signal_l_timer;
-unsigned long to_signal_r_timer;
-
 
 int permitted_lane_timer_set = 0;
 int prohibited_lane_timer_set = 0;
@@ -36,9 +33,6 @@ int speed_level = 0;
 
 int id_timer_set = 0;
 int distance_timer_set = 0;
-
-int to_signal_l_timer_set = 0;
-int to_signal_r_timer_set = 0;
 
 SevSeg sevseg;
 char c;
@@ -83,7 +77,7 @@ void setup() {
   tlr_timer = 0;
   distance_timer = 0;
   rString="";
-}
+}  
 
 // the loop function runs over and over again forever
 void loop() {
@@ -98,7 +92,7 @@ void loop() {
     {
       
       Serial.println(rString);
-
+      
       if(rString == "tlr" && tlr_timer_set == 0)
       {
         tlr_timer = millis() + 750;
@@ -176,19 +170,6 @@ void loop() {
         id_timer_set = 1;
       }
       
-      if(rString == "lefr" && to_signal_l_timer_set == 0)
-      {
-        to_signal_l_timer = millis() + 1000;
-        to_signal_l_timer_set = 1;
-      }
-
-      if(rString == "gir" && to_signal_r_timer_set == 0)
-      {
-        to_signal_r_timer = millis() + 1000;
-        to_signal_r_timer_set = 1;
-      }
-
-
       char rStringArray[64];
       rString.toCharArray(rStringArray, 64);
       if(rStringArray[0] == 'n' && distance_timer_set == 0)
@@ -208,8 +189,8 @@ void loop() {
       
       rString="";
     }
-  }  
-
+  } 
+  
    if( millis() < distance_timer)
    {
      
@@ -240,31 +221,7 @@ void loop() {
      id_timer_set = 0;
    }
 
-   if(millis() < to_signal_l_timer)
-   {
-     byte segs[] = {B00011000,B00000000};
-     sevseg.setSegments(segs);
-     sevseg.refreshDisplay(); // Executar repetidamente
-     analogWrite(BUZZER, 80);
-   }
-   else if (to_signal_l_timer_set) {
-     analogWrite(BUZZER, 0);
-     to_signal_l_timer_set = 0;
-   }
-   
-   if(millis() < to_signal_r_timer)
-   {
-     byte segs[] = {B00000000,B00001100};
-     sevseg.setSegments(segs);
-     sevseg.refreshDisplay(); // Executar repetidamente
-     analogWrite(BUZZER, 80);
-   }
-   else if (to_signal_r_timer_set) {
-     analogWrite(BUZZER, 0);
-     to_signal_r_timer_set = 0;
-   }
-
-   if(!distance_timer_set && !id_timer_set && !to_signal_l_timer_set && !to_signal_r_timer_set) {
+   if(!distance_timer_set && !id_timer_set) {
      sevseg.blank();
      sevseg.refreshDisplay();
    }
