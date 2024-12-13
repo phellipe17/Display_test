@@ -57,5 +57,12 @@ arduino-cli compile --fqbn lgt8fx:avr:328:clock_source=internal,clock_div=8,vari
 
 avrdude -v -patmega328p -carduino -P/dev/ttyARD -b115200 -D -Uflash:w:/home/pi/bin_code/displaybs/displaylgt8fx/displaybs.ino.hex:i
 
+---------------------------------------------------------------------------------------------------------
 
+Possivel necessidade de nova compilação
 
+arduino-cli compile --fqbn arduino:avr:nano:cpu=atmega328 --output-dir /home/pi/bin_code/displaybs/newdisplaybs/ /home/pi/bin_code/displaybs/displaybs.ino --verbose
+
+Up da nova compialação
+
+avrdude -v -patmega328p -carduino -P/dev/ttyARD -b57600 -D -Uflash:w:/home/pi/bin_code/displaybs/newdisplaybs/displaybs.ino.hex:i
