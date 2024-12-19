@@ -8,6 +8,8 @@ tests = [
     {'command': 'gir' , 'description': 'Seta para direita'},
     {'command': 'lefr' , 'description': 'Seta para esquerda'},
     {'command': 'idr', 'description': 'Mostar ID no display'},
+    {'command': 'lef2r', 'description': 'Seta para esquerda'},
+    {'command': 'gi2r', 'description': 'Seta para direita'},
     {'command': 'gor', 'description': 'Somente buzzer'},
     {'command': 'n0.0r', 'description': 'Mostra 0.0 no display'},
     {'command': 'n2.5.r', 'description': 'Mostra 2.5 no display'},
@@ -16,8 +18,7 @@ tests = [
     {'command': 'gr', 'description': 'Mostra luz azul permanente'},
     {'command': 'gfr', 'description': 'Apaga luz azul'},
     {'command': 'c1r', 'description': 'Pisca luz vermelha'},
-    {'command': 'sr', 'description': 'Liga a outra luz azul e buzzer'},
-    {'command': 'rig' , 'description': 'Seta para direita'},    
+    {'command': 'sr', 'description': 'Liga a outra luz azul e buzzer'},   
 ]
 
 # hex_file_path = os.path.join(os.path.dirname(_file_), 'bin/Display5621BS.ino.hex')

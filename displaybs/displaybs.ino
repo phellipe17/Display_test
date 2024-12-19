@@ -22,6 +22,8 @@ unsigned long distance_timer;
 unsigned long id_timer;
 unsigned long to_signal_l_timer;
 unsigned long to_signal_r_timer;
+unsigned long to_signal_l2_timer;
+unsigned long to_signal_r2_timer;
 
 
 int permitted_lane_timer_set = 0;
@@ -39,6 +41,8 @@ int distance_timer_set = 0;
 
 int to_signal_l_timer_set = 0;
 int to_signal_r_timer_set = 0;
+int to_signal_l2_timer_set = 0;
+int to_signal_r2_timer_set = 0;
 
 SevSeg sevseg;
 char c;
@@ -182,11 +186,23 @@ void loop() {
         to_signal_l_timer_set = 1;
       }
 
+      if(rString == "lef2r" && to_signal_l2_timer_set == 0)
+      {
+        to_signal_l2_timer = millis() + 1000;
+        to_signal_l2_timer_set = 1;
+      }
+
       if(rString == "gir" && to_signal_r_timer_set == 0)
       {
         to_signal_r_timer = millis() + 1000;
         to_signal_r_timer_set = 1;
       }
+
+      if(rString == "gi2r" && to_signal_r2_timer_set == 0)
+      {
+        to_signal_r2_timer = millis() + 1000;
+        to_signal_r2_timer_set = 1;
+      } 
 
 
       char rStringArray[64];
@@ -251,6 +267,18 @@ void loop() {
      analogWrite(BUZZER, 0);
      to_signal_l_timer_set = 0;
    }
+
+   if(millis() < to_signal_l2_timer)
+   {
+     byte segs[] = {B00011000,B00000000};
+     sevseg.setSegments(segs);
+     sevseg.refreshDisplay(); // Executar repetidamente
+    //  analogWrite(BUZZER, 80);
+   }
+   else if (to_signal_l2_timer_set) {
+     analogWrite(BUZZER, 0);
+     to_signal_l2_timer_set = 0;
+   }  
    
    if(millis() < to_signal_r_timer)
    {
@@ -264,7 +292,19 @@ void loop() {
      to_signal_r_timer_set = 0;
    }
 
-   if(!distance_timer_set && !id_timer_set && !to_signal_l_timer_set && !to_signal_r_timer_set) {
+   if(millis() < to_signal_r2_timer)
+   {
+     byte segs[] = {B00000000,B00001100};
+     sevseg.setSegments(segs);
+     sevseg.refreshDisplay(); // Executar repetidamente
+    //  analogWrite(BUZZER, 80);
+   }
+   else if (to_signal_r2_timer_set) {
+     analogWrite(BUZZER, 0);
+     to_signal_r2_timer_set = 0;
+   }
+
+   if(!distance_timer_set && !id_timer_set && !to_signal_l_timer_set && !to_signal_r_timer_set && !to_signal_l2_timer_set && !to_signal_r2_timer_set) {
      sevseg.blank();
      sevseg.refreshDisplay();
    }
